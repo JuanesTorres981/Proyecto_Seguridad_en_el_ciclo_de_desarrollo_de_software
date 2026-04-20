@@ -1,0 +1,32 @@
+[
+    {
+        "transaction_id": 1,
+        "user": "Ana",
+        "amount": 50000,
+        "location": "CO",
+        "frequency": 1,
+        "timestamp": "2026-04-20 01:30:35.000538",
+        "status": "APPROVED",
+        "risk": 0
+    },
+    {
+        "transaction_id": 2,
+        "user": "Luis",
+        "amount": 2000000,
+        "location": "CO",
+        "frequency": 1,
+        "timestamp": "2026-04-20 01:30:35.000633",
+        "status": "APPROVED",
+        "risk": 50
+    },
+    {
+        "transaction_id": 3,
+        "user": "Sof\u00eda",
+        "amount": 100000,
+        "location": "US",
+        "frequency": 5,
+        "timestamp": "2026-04-20 01:30:35.000683",
+        "status": "BLOCKED",
+        "risk": 70
+    }
+]
