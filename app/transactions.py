@@ -40,7 +40,7 @@ def evaluate_transaction(transaction: dict) -> dict:
         message = "Bloqueadoooo :p"
     elif risk >= 50:
         status = "REVIEW"
-        message = "Wait, tu transacciun sera revisada a profundidad (*￣3￣)╭"
+        message = "Wait, tu transaccion sera revisada a profundidad (*￣3￣)╭"
     else:
         status = "APPROVED"
         message = "Aprobado por Chayanne ;D"

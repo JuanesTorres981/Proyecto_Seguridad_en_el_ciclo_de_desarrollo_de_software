@@ -33,7 +33,7 @@ def test_transaccion_en_revision():
     
     assert result["risk"] == 50
     assert result["status"] == "REVIEW"
-    assert result["message"] == "Wait, la transacción sera revisada a profundidad (*￣3￣)╭"
+    assert result["message"] == "Wait, tu transaccion sera revisada a profundidad (*￣3￣)╭"
 
 def test_transaccion_bloqueada_por_monto_y_cuenta_nueva():
     # Escenario: Transaccion de revision con riesgo sospechosa = 70
