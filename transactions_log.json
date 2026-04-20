@@ -1,32 +1,46 @@
 [
     {
         "transaction_id": 1,
-        "user": "Ana",
-        "amount": 50000,
+        "user": "Anadearmas",
+        "amount": 2500000,
         "location": "CO",
         "frequency": 1,
-        "timestamp": "2026-04-20 01:30:35.000538",
+        "timestamp": "2026-04-19 23:55:59.250571",
         "status": "APPROVED",
-        "risk": 0
+        "risk": 0,
+        "message": "Aprobado por Chayanne ;D"
     },
     {
         "transaction_id": 2,
-        "user": "Luis",
-        "amount": 2000000,
+        "user": "Luismi",
+        "amount": 150000000,
         "location": "CO",
         "frequency": 1,
-        "timestamp": "2026-04-20 01:30:35.000633",
-        "status": "APPROVED",
-        "risk": 50
+        "timestamp": "2026-04-19 23:55:59.250571",
+        "status": "REVIEW",
+        "risk": 50,
+        "message": "Wait, tu transacciun sera revisada a profundidad (*\uffe33\uffe3)\u256d"
     },
     {
         "transaction_id": 3,
-        "user": "Sof\u00eda",
-        "amount": 100000,
+        "user": "Sofiadelbarrio",
+        "amount": 15000000,
         "location": "US",
-        "frequency": 5,
-        "timestamp": "2026-04-20 01:30:35.000683",
+        "frequency": 2,
+        "timestamp": "2026-04-19 23:55:59.250571",
         "status": "BLOCKED",
-        "risk": 70
+        "risk": 70,
+        "message": "Bloqueadoooo :p"
+    },
+    {
+        "transaction_id": 4,
+        "user": "Estebanco",
+        "amount": 50000,
+        "location": "RU",
+        "frequency": 7,
+        "timestamp": "2026-04-19 23:55:59.250571",
+        "status": "BLOCKED",
+        "risk": 85,
+        "message": "Bloqueadoooo :p"
     }
 ]

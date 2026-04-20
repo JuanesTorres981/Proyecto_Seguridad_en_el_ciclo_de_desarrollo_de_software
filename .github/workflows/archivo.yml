@@ -1,13 +1,33 @@
-name: Archivo Security Checks
-on: [push, pull_request]
+name: Bubbles
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
 jobs:
-  build:
+  security-and-testing:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - name: Checkout del código
+      uses: actions/checkout@v3
 
-    - name: Run security checks
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Instalar dependencias
       run: |
-        echo "Running security checks..."
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Ejecutar Pruebas Automatizadas con pytest
+      run: |
+        python -m pytest test/
+
+    - name: Control de Seguridad SAST con Bandit
+      run: |
+        # Ejecuta análisis estático de seguridad en la carpeta app/
+        bandit -r app/ -ll -ii
