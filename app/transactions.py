@@ -1,12 +1,23 @@
 from datetime import datetime
+from validation import validate_transaction_data
 
 def evaluate_transaction(transaction: dict) -> dict:
+    clean_data, errors = validate_transaction_data(transaction)
+    
+    if errors:
+        return {
+            "status": "ERROR",
+            "message": f"Datos inválidos detectados: {errors}",
+            "risk": 100,  
+            "processed_at": datetime.now().isoformat()
+        }
+    
     risk = 0
-    amount = transaction.get("amount", 0)
-    location = transaction.get("location", "CO")
-    frequency = transaction.get("frequency", 1)
-    hour = transaction.get("hour", 12)
-    is_new_account = transaction.get("is_new_account", False)
+    amount = clean_data["amount"]
+    location = clean_data["location"]
+    frequency = clean_data["frequency"]
+    hour = clean_data["hour"]
+    account_months = clean_data["creation_date"] 
 
     # 1. Riesgo en el monto
     if amount > 100000000:
@@ -30,9 +41,13 @@ def evaluate_transaction(transaction: dict) -> dict:
     if hour < 6 or hour > 22:    
         risk += 15
     
-    # 5. Riesgo si la cuenta es nueva
-    if is_new_account:
-        risk += 20
+    # 5. Riesgo en la antiguedad de la cuenta
+    if account_months == 0:
+        risk += 30
+    elif account_months <= 3:
+        risk += 15  
+    elif account_months >= 12:
+        risk -= 10  
 
     # Determinar el estado basado en el puntaje
     if risk >= 70:

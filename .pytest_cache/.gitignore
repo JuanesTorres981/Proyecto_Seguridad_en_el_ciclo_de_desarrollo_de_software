@@ -1,0 +1,22 @@
+# Virtual environment
+.venv/
+venv/
+env/
+ 
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+ 
+# Generated artifacts
+transactions_log.json
+reporte.json
+*.json.bak
+ 
+# Test cache
+.pytest_cache/
+ 
+# IDE
+.vscode/
+.idea/
+*.swp

@@ -25,9 +25,12 @@ jobs:
 
     - name: Ejecutar Pruebas Automatizadas con pytest
       run: |
-        python -m pytest tests/fraud_tests.py
+        python -m pytest tests/fraud_tests.py -v
+    
+    - name: Escaneo de dependencias con pip-audit
+      run: |
+        pip-audit -r requirements.txt
 
     - name: Control de Seguridad SAST con Bandit
       run: |
-        # Ejecuta análisis estático de seguridad en la carpeta app/
         bandit -r app/ -ll -ii

@@ -5,9 +5,9 @@
         "amount": 2500000,
         "location": "CO",
         "frequency": 1,
-        "timestamp": "2026-04-19 23:55:59.250571",
+        "timestamp": "2026-04-20 22:10:47.988809",
         "status": "APPROVED",
-        "risk": 0,
+        "risk": -10,
         "message": "Aprobado por Chayanne ;D"
     },
     {
@@ -16,10 +16,10 @@
         "amount": 150000000,
         "location": "CO",
         "frequency": 1,
-        "timestamp": "2026-04-19 23:55:59.250571",
+        "timestamp": "2026-04-20 22:10:47.988809",
         "status": "REVIEW",
-        "risk": 50,
-        "message": "Wait, tu transacciun sera revisada a profundidad (*\uffe33\uffe3)\u256d"
+        "risk": 55,
+        "message": "Wait, tu transaccion sera revisada a profundidad (*\uffe33\uffe3)\u256d"
     },
     {
         "transaction_id": 3,
@@ -27,9 +27,9 @@
         "amount": 15000000,
         "location": "US",
         "frequency": 2,
-        "timestamp": "2026-04-19 23:55:59.250571",
+        "timestamp": "2026-04-20 22:10:47.988809",
         "status": "BLOCKED",
-        "risk": 70,
+        "risk": 80,
         "message": "Bloqueadoooo :p"
     },
     {
@@ -37,10 +37,21 @@
         "user": "Estebanco",
         "amount": 50000,
         "location": "RU",
-        "frequency": 7,
-        "timestamp": "2026-04-19 23:55:59.250571",
-        "status": "BLOCKED",
-        "risk": 85,
-        "message": "Bloqueadoooo :p"
+        "frequency": 4,
+        "timestamp": "2026-04-20 22:10:47.988809",
+        "status": "REVIEW",
+        "risk": 60,
+        "message": "Wait, tu transaccion sera revisada a profundidad (*\uffe33\uffe3)\u256d"
+    },
+    {
+        "transaction_id": 5,
+        "user": "Simondice",
+        "amount": "cien mil",
+        "location": "colombia",
+        "frequency": -5,
+        "timestamp": "2026-04-20 22:10:47.988809",
+        "status": "ERROR",
+        "risk": 100,
+        "message": "Datos inv\u00e1lidos detectados: {'amount': 'El monto que se ingreso no es valido. Debe ser un n\u00famero positivo.', 'location': 'La ubicaci\u00f3n debe ser valida. CO para Colombia, US para Estados Unidos, etc.', 'frequency': 'La frecuencia debe ser un n\u00famero entero mayor o igual a 1.', 'hour': 'La hora debe tener un formato de 24 horas con minutos (por ejemplo, 14:30).', 'creation_date': 'La fecha de creaci\u00f3n debe tener el formato MM/YY.'}"
     }
 ]

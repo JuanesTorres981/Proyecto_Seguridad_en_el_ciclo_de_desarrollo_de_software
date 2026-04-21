@@ -1,0 +1,7 @@
+[
+  "tests/fraud_tests.py::test_seguridad_capa_1_datos_maliciosos",
+  "tests/fraud_tests.py::test_transaccion_aprobada",
+  "tests/fraud_tests.py::test_transaccion_bloqueada_por_comportamiento_anomalo",
+  "tests/fraud_tests.py::test_transaccion_bloqueada_por_monto_y_cuenta_nueva",
+  "tests/fraud_tests.py::test_transaccion_en_revision"
+]
