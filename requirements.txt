@@ -1,3 +1,18 @@
-pytest==9.0.3
-bandit==1.9.4
-pip-audit==2.10.0
+# Web framework
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+
+# Data validation
+pydantic==2.10.3
+
+# ML
+scikit-learn==1.6.1
+numpy==2.2.0
+
+# Testing
+pytest==8.3.4
+httpx==0.28.1       
+
+# Security tools (also used by DevSecOps pipeline)
+bandit==1.8.0
+pip-audit==2.8.0

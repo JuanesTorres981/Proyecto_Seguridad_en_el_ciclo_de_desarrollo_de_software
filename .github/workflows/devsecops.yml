@@ -1,0 +1,180 @@
+name: DevSecOps Pipeline — Bubbles
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Train ML model (required before API tests)
+        run: python ml/train.py
+
+      - name: Run unit tests with pytest
+        run: pytest tests/ -v --tb=short --junitxml=test-results.xml
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: test-results.xml
+
+  sast:
+    name: SAST — Bandit
+    runs-on: ubuntu-latest
+    needs: test                 
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Bandit
+        run: pip install bandit[toml]
+
+      - name: Run Bandit static analysis
+        run: |
+          bandit -r app/ ml/ scripts/ \
+            -f json \
+            -o bandit-report.json \
+            --severity-level medium \
+            || true
+
+      - name: Display Bandit summary
+        run: bandit -r app/ ml/ scripts/ --severity-level medium || true
+
+      - name: Upload Bandit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: bandit-report
+          path: bandit-report.json
+
+  dependency-scan:
+    name: SCA — pip-audit
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pip-audit
+        run: pip install pip-audit
+
+      - name: Install project dependencies (to scan them)
+        run: pip install -r requirements.txt
+
+      - name: Run pip-audit
+        run: |
+          pip-audit --format json -o pip-audit-report.json \
+            -r requirements.txt \
+            || true
+
+      - name: Display pip-audit summary
+        run: pip-audit -r requirements.txt || true
+
+      - name: Upload pip-audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: pip-audit-report
+          path: pip-audit-report.json
+
+  security-gate:
+    name: Security Quality Gate
+    runs-on: ubuntu-latest
+    needs: [sast, dependency-scan]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download Bandit report
+        uses: actions/download-artifact@v4
+        with:
+          name: bandit-report
+
+      - name: Download pip-audit report
+        uses: actions/download-artifact@v4
+        with:
+          name: pip-audit-report
+
+      - name: Run security quality gate
+        run: python scripts/check_security.py
+
+  integration:
+    name: API Smoke Test
+    runs-on: ubuntu-latest
+    needs: security-gate
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Train model
+        run: python ml/train.py
+
+      - name: Start API in background
+        run: |
+          uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+          sleep 3  # Give the server time to start
+
+      - name: Health check
+        run: curl -f http://localhost:8000/health
+
+      - name: Submit a test transaction
+        run: |
+          curl -f -X POST http://localhost:8000/api/transactions \
+            -H "Content-Type: application/json" \
+            -d '{
+              "user_id": "ci_test_user",
+              "amount": 500000,
+              "location": "CO",
+              "frequency": 1,
+              "hour": 14,
+              "is_new_account": false
+            }' | python -m json.tool
+
+      - name: Check metrics endpoint
+        run: curl -f http://localhost:8000/api/metrics | python -m json.tool
