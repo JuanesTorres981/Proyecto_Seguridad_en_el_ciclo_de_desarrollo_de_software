@@ -22,7 +22,8 @@ function App() {
           user_id: userId,
           frequency: Number(frequency),
           hour: Number(hour),
-          
+          is_new_account: false
+}),
         }),
       }
     );
