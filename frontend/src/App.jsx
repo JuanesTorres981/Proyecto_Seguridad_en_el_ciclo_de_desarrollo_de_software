@@ -3,11 +3,14 @@ import { useState } from "react";
 function App() {
   const [amount, setAmount] = useState("");
   const [country, setCountry] = useState("");
+  const [userId, setUserId] = useState("");
+  const [frequency, setFrequency] = useState("");
+  const [hour, setHour] = useState("");
   const [result, setResult] = useState(null);
 
   const analyzeTransaction = async () => {
     const response = await fetch(
-      "https://bookish-space-tribble-wr6g55ggrqp4f7xr-8000.app.github.dev/api/transactions",
+      "/api/transactions",
       {
         method: "POST",
         headers: {
@@ -16,6 +19,10 @@ function App() {
         body: JSON.stringify({
           amount: Number(amount),
           location: country,
+          user_id: userId,
+          frequency: Number(frequency),
+          hour: Number(hour),
+          
         }),
       }
     );
@@ -26,47 +33,137 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Detector de Fraude</h1>
+    <div style={styles.page}>
+      <div style={styles.card}>
+        <h2 style={styles.title}>
+          Bubbles tu detectora de Fraude 🫧
+        </h2>
 
-      <input
-        type="number"
-        placeholder="Monto"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-      />
+        <p style={styles.subtitle}>
+          Analiza transacciones sospechosas en tiempo real
+        </p>
 
-      <br />
-      <br />
+        <input
+          type="number"
+          placeholder="Monto de la transacción"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          style={styles.input}
+        />
 
-      <input
-        type="text"
-        placeholder="País"
-        value={country}
-        onChange={(e) => setCountry(e.target.value)}
-      />
+        <input
+          type="text"
+          placeholder="País"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+          style={styles.input}
+        />
+        <input
+          type="text"
+          placeholder="User ID"
+          value={userId}
+          onChange={(e) => setUserId(e.target.value)}
+          style={styles.input}
+        />
 
-      <br />
-      <br />
+        <input
+          type="number"
+          placeholder="Frecuencia"
+          value={frequency}
+          onChange={(e) => setFrequency(e.target.value)}
+          style={styles.input}
+        />
 
-      <button onClick={analyzeTransaction}>
-        Analizar Transacción
-      </button>
+        <input
+          type="number"
+          placeholder="Hora"
+          value={hour}
+          onChange={(e) => setHour(e.target.value)}
+          style={styles.input}
+        />
+        <button
+          onClick={analyzeTransaction}
+          style={styles.button}
+        >
+          Analizar Transacción
+        </button>
 
-      <br />
-      <br />
+        {result && (
+          <div style={styles.resultBox}>
+            <h2>Resultado</h2>
 
-      {result && (
-        <div>
-          <h2>Resultado</h2>
-
-          <pre>
-            {JSON.stringify(result, null, 2)}
-          </pre>
-        </div>
-      )}
+            <pre style={styles.pre}>
+              {JSON.stringify(result, null, 2)}
+            </pre>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
+
+const styles = {
+  page: {
+    backgroundColor: "#4B92DB",
+    minHeight: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontFamily: "Arial",
+    padding: "20px",
+  },
+
+  card: {
+    backgroundColor: "#0087BD",
+    padding: "40px",
+    borderRadius: "20px",
+    width: "400px",
+    boxShadow: "0 0 30px rgba(0,0,0,0.3)",
+  },
+
+  title: {
+    color: "white",
+    marginBottom: "10px",
+  },
+
+  subtitle: {
+    color: "#94a3b8",
+    marginBottom: "30px",
+  },
+
+  input: {
+    width: "100%",
+    padding: "12px",
+    marginBottom: "15px",
+    borderRadius: "10px",
+    border: "none",
+    backgroundColor: "#334155",
+    color: "white",
+    fontSize: "16px",
+  },
+
+  button: {
+    width: "100%",
+    padding: "14px",
+    borderRadius: "10px",
+    border: "none",
+    backgroundColor: "#2563eb",
+    color: "white",
+    fontSize: "16px",
+    cursor: "pointer",
+  },
+
+  resultBox: {
+    marginTop: "25px",
+    backgroundColor: "#0f172a",
+    padding: "20px",
+    borderRadius: "10px",
+    color: "white",
+  },
+
+  pre: {
+    whiteSpace: "pre-wrap",
+  },
+};
 
 export default App;
